@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <body>
+        <button id="btn">Получить данные</button>
+        <div id="output"></div>
+    </body>
+    <script>
+        btn.addEventListener("click", () => {
+            const scrX = window.screen.width;
+            const scrY = window.screen.height;
+            let cords;
+
+            const out = () => {
+                const out = `<p>Размер экрана: ${scrX}x${scrY}</p>
+                            <p>${cords}</p>`
+                output.innerHTML = out;
+            }
+
+            const success = (pos) => {
+                cords = `${pos.coords.latitude}° ${pos.coords.longitude}°`;
+                out();
+            }
+            const error = () =>{
+                cords = "Информация о местоположении недоступна";
+                out();
+                }
+
+
+            if(!navigator.geolocation) error();
+            else navigator.geolocation.getCurrentPosition(success, error);
+        });
+    </script>
+</html>

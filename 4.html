@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <body>
+        <button id="btn">Получить данные</button>
+        <div id="output"></div>
+    </body>
+    <script>
+        btn.addEventListener("click", () => {
+
+        const success = (pos) => {
+            cords = {latitude:pos.coords.latitude, longitude:pos.coords.longitude};
+            
+            fetch(`https://api.ipgeolocation.io/timezone?apiKey=32bcd4a6e4b548968e7afcdb682ac679&lat=${cords.latitude}&long=${cords.longitude}`)
+            .then((response) => {
+                return(response.json());
+            })
+            .then((data) => {
+                output.innerHTML = `${data.timezone}. ${data.date_time_txt}`;
+            });
+        }
+        const error = () =>{
+            output.innerHTML = "Информация о местоположении недоступна!";
+        }
+
+        if(!navigator.geolocation) error();
+        else navigator.geolocation.getCurrentPosition(success, error);
+
+        })
+    </script>
+</html>
